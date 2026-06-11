@@ -270,6 +270,14 @@ main{flex:1;padding:1.1rem 1.1rem calc(var(--nav-h) + 1.4rem)}
   color:var(--acc);text-transform:uppercase;font-weight:700;opacity:.8;
 }
 .holo-label::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--acc);margin-right:.35rem;animation:blink 1.4s infinite}
+.holo-views{position:absolute;top:.55rem;right:.6rem;display:flex;gap:4px;z-index:2}
+.hv{
+  font-size:.62rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+  padding:.28rem .6rem;border-radius:99px;color:var(--muted);
+  background:rgba(8,16,28,.65);border:1px solid rgba(34,211,238,.25);
+  transition:all .15s;
+}
+.hv.on{color:#06121a;background:var(--acc);border-color:var(--acc);box-shadow:0 0 10px rgba(34,211,238,.5)}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
 .timer-big{
   text-align:center;font-size:4rem;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;
@@ -429,7 +437,62 @@ main{flex:1;padding:1.1rem 1.1rem calc(var(--nav-h) + 1.4rem)}
 .ob-opt b{display:block;font-size:1rem;margin-bottom:.15rem}
 .ob-opt small{color:var(--muted);font-size:.78rem}
 
+/* ---------- XP / nivel ---------- */
+.xp-card{padding:.8rem 1rem}
+.xp-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.45rem}
+.xp-head b{font-size:.92rem}
+.xp-head small{color:var(--muted);font-size:.74rem}
+.xp-lvl{
+  display:inline-grid;place-items:center;width:30px;height:30px;border-radius:10px;
+  background:var(--grad);color:#06121a;font-weight:800;font-size:.86rem;margin-right:.5rem;
+}
+.xp-track{height:8px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+.xp-fill{height:100%;background:var(--grad);border-radius:99px;transition:width .6s ease;box-shadow:0 0 10px rgba(34,211,238,.4)}
+
+/* ---------- reto semanal ---------- */
+.reto-card{background:rgba(251,191,36,.07);border-color:rgba(251,191,36,.3)}
+.reto-head{display:flex;justify-content:space-between;align-items:center;gap:.6rem;margin-bottom:.5rem}
+.reto-head h3{margin:0;font-size:.92rem}
+.reto-pill{font-size:.66rem;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--warn);white-space:nowrap}
+.reto-track{height:8px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;margin:.35rem 0}
+.reto-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#fbbf24,#f59e0b);transition:width .6s ease}
+.reto-card.logrado{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.4)}
+.reto-card.logrado .reto-fill{background:linear-gradient(90deg,#34d399,#22d3ee)}
+.reto-meta{display:flex;justify-content:space-between;font-size:.74rem;color:var(--muted)}
+
+/* ---------- aviso entreno pendiente ---------- */
+.aviso-card{background:rgba(248,113,113,.08);border-color:rgba(248,113,113,.35);display:flex;align-items:center;gap:.7rem}
+.aviso-card p{font-size:.85rem}
+
+/* ---------- logros ---------- */
+.logros-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-top:.3rem}
+.logro{
+  text-align:center;padding:.6rem .25rem;border-radius:14px;
+  background:rgba(255,255,255,.04);border:1px solid var(--card-border);
+  cursor:pointer;transition:transform .15s;
+}
+.logro:hover{transform:translateY(-2px)}
+.logro .ic{font-size:1.45rem;display:block;margin-bottom:.2rem}
+.logro small{font-size:.58rem;color:var(--muted);line-height:1.15;display:block}
+.logro.off{opacity:.32;filter:grayscale(1)}
+.logro.on{border-color:rgba(251,191,36,.5);background:rgba(251,191,36,.08)}
+
+/* ---------- toast ---------- */
+.toast{
+  position:fixed;left:50%;bottom:calc(var(--nav-h) + 18px);transform:translateX(-50%) translateY(20px);
+  max-width:90%;background:#101a2e;border:1px solid rgba(251,191,36,.55);
+  border-radius:16px;padding:.75rem 1.1rem;font-size:.86rem;z-index:90;
+  opacity:0;pointer-events:none;transition:all .3s ease;
+  box-shadow:0 10px 30px rgba(0,0,0,.5), 0 0 20px rgba(251,191,36,.15);
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast b{color:var(--warn)}
+
+#medida-chart{width:100%;height:140px}
+.peso-form select{width:auto;padding:.45rem .5rem;font-size:.8rem}
+
 @media(min-width:600px){
+  .logros-grid{grid-template-columns:repeat(8,1fr)}
   .lib-grid{grid-template-columns:repeat(3,1fr)}
   .stats-grid{grid-template-columns:repeat(4,1fr)}
 }
