@@ -1,7 +1,7 @@
 /* FitHome Pro — Service Worker: app 100% funcional sin conexión */
 'use strict';
 
-const CACHE = 'fithome-pro-v4';
+const CACHE = 'fithome-pro-v5';
 const ASSETS = [
   './',
   './index.html',

@@ -460,8 +460,22 @@ const App = (() => {
 
   function entrenarTipo(tipo) { renderEntrenar(tipo); window.scrollTo({ top: 0 }); }
 
+  /* ---- selector de ángulo del holograma ---- */
+  function holoToggleHtml(ex, fn, vista) {
+    if (!ex.anim2) return '';
+    return `<div class="holo-views">
+      <button class="hv ${vista === 'a' ? 'on' : ''}" onclick="${fn}('a')">${VISTAS[ex.anim.view]}</button>
+      <button class="hv ${vista === 'b' ? 'on' : ''}" onclick="${fn}('b')">${VISTAS[ex.anim2.view]}</button>
+    </div>`;
+  }
+
+  function marcarVista(stage, vista) {
+    stage.querySelectorAll('.hv').forEach((b, i) =>
+      b.classList.toggle('on', (i === 0 ? 'a' : 'b') === vista));
+  }
+
   /* ================= PLAYER ================= */
-  const player = { activo: false, pasos: [], idx: 0, resto: 0, pausa: false, timer: null, rutina: null, holo: null, inicioMs: 0 };
+  const player = { activo: false, pasos: [], idx: 0, resto: 0, pausa: false, timer: null, rutina: null, holo: null, inicioMs: 0, vista: 'a', autoVista: true };
 
   function iniciarRutina(tipo) {
     const r = rutinaDe(tipo);
@@ -494,7 +508,21 @@ const App = (() => {
       return;
     }
     if (player.resto <= 3) beep(880, 0.1);
+    // alternar el ángulo del holograma cada 7 s para ver la técnica completa
+    const ex = EXERCISES[player.pasos[player.idx].ex];
+    if (ex.anim2 && player.autoVista && player.resto % 7 === 0) {
+      vistaPlayer(player.vista === 'a' ? 'b' : 'a', true);
+    }
     actualizarTimer();
+  }
+
+  function vistaPlayer(v, auto) {
+    if (!auto) player.autoVista = false; // el toque manual fija el ángulo
+    player.vista = v;
+    const ex = EXERCISES[player.pasos[player.idx].ex];
+    if (player.holo) player.holo.setExercise(v === 'b' && ex.anim2 ? ex.anim2 : ex.anim);
+    const stage = document.querySelector('#view-player .holo-stage');
+    if (stage) marcarVista(stage, v);
   }
 
   function renderPaso() {
@@ -516,6 +544,7 @@ const App = (() => {
       <p class="player-sub">${esc(sub)}</p>
       <div class="holo-stage">
         <span class="holo-label">Holograma · técnica en vivo</span>
+        ${holoToggleHtml(ex, 'App.vistaPlayer', 'a')}
         <canvas id="holo-canvas"></canvas>
       </div>
       <div class="timer-big" id="timer-big">${fmt(player.resto)}</div>
@@ -525,6 +554,8 @@ const App = (() => {
       </div>
       <div class="player-tip"><b>Técnica:</b> ${esc(ex.instrucciones[p.fase === 'trabajo' ? 1 : 0])} ${esc(ex.consejo)}</div>`;
 
+    player.vista = 'a';
+    player.autoVista = true;
     if (player.holo) player.holo.stop();
     player.holo = new Hologram($('#holo-canvas'));
     player.holo.setExercise(ex.anim);
@@ -782,14 +813,24 @@ const App = (() => {
 
   /* ================= MODAL EJERCICIO ================= */
   let modalHolo = null;
+  let modalExId = null;
+
+  function vistaModal(v) {
+    const e = EXERCISES[modalExId];
+    if (modalHolo) modalHolo.setExercise(v === 'b' && e.anim2 ? e.anim2 : e.anim);
+    const stage = document.querySelector('#modal-ex .holo-stage');
+    if (stage) marcarVista(stage, v);
+  }
 
   function verEjercicio(id) {
     const e = EXERCISES[id];
+    modalExId = id;
     const dif = ['Fácil', 'Media', 'Alta'][e.dificultad - 1];
     $('#modal-ex-body').innerHTML = `
       <h2>${e.emoji} ${esc(e.nombre)}</h2>
       <div class="holo-stage">
         <span class="holo-label">Holograma · técnica en vivo</span>
+        ${holoToggleHtml(e, 'App.vistaModal', 'a')}
         <canvas id="modal-holo"></canvas>
       </div>
       <div class="ex-meta">
@@ -912,6 +953,7 @@ const App = (() => {
     iniciarRutina, togglePausa, saltarPaso, salirPlayer,
     toggleComida, logPeso, filtrarLib, verEjercicio, cerrarModal,
     openPerfil, guardarPerfil, resetApp,
-    renderMedidas, logMedida, verLogro
+    renderMedidas, logMedida, verLogro,
+    vistaPlayer, vistaModal
   };
 })();

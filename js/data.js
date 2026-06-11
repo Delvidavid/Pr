@@ -19,6 +19,10 @@ const EXERCISES = {
     anim: { view: 'front', kfs: [
       { px: 0, py: 0, spine: 180, head: 180, thighL: 6, shinL: 3, thighR: -6, shinR: -3, armL: 20, farmL: 10, armR: -20, farmR: -10, d: 0.38 },
       { px: 0, py: -9, spine: 180, head: 180, thighL: 32, shinL: 28, thighR: -32, shinR: -28, armL: 162, farmL: 168, armR: -162, farmR: -168, d: 0.38 }
+    ]},
+    anim2: { view: 'side', kfs: [
+      { spine: 180, head: 182, thighL: 5, shinL: 2, thighR: -3, shinR: -1, armL: 8, farmL: 4, armR: -8, farmR: -4, d: 0.38 },
+      { py: -9, spine: 181, head: 183, thighL: 14, shinL: 8, thighR: -10, shinR: -6, armL: 175, farmL: 178, armR: 170, farmR: 174, d: 0.38 }
     ]}
   },
   'high-knees': {
@@ -35,6 +39,10 @@ const EXERCISES = {
     anim: { view: 'side', kfs: [
       { py: -4, spine: 176, head: 178, thighL: 85, shinL: 5, thighR: -4, shinR: -2, armL: -40, farmL: -75, armR: 42, farmR: 78, d: 0.27 },
       { py: -4, spine: 176, head: 178, thighR: 85, shinR: 5, thighL: -4, shinL: -2, armR: -40, farmR: -75, armL: 42, farmL: 78, d: 0.27 }
+    ]},
+    anim2: { view: 'front', kfs: [
+      { py: -4, spine: 179, head: 180, thighL: 28, shinL: -14, thighR: -6, shinR: -3, armL: 22, farmL: -50, armR: -32, farmR: 62, d: 0.27 },
+      { py: -4, spine: 181, head: 180, thighR: -28, shinR: 14, thighL: 6, shinL: 3, armR: -22, farmR: 50, armL: 32, farmL: -62, d: 0.27 }
     ]}
   },
   'burpees': {
@@ -71,6 +79,10 @@ const EXERCISES = {
     anim: { view: 'side', kfs: [
       { py: 0, spine: 178, head: 182, thighL: 6, shinL: 2, thighR: -2, shinR: 0, armL: 10, farmL: 5, armR: -5, farmR: -2, d: 0.85 },
       { py: 36, spine: 152, head: 162, thighL: 76, shinL: -14, thighR: 70, shinR: -10, armL: 92, farmL: 90, armR: 86, farmR: 84, d: 0.85 }
+    ]},
+    anim2: { view: 'front', kfs: [
+      { spine: 180, head: 181, thighL: 14, shinL: 10, thighR: -14, shinR: -10, armL: 14, farmL: 8, armR: -14, farmR: -8, d: 0.85 },
+      { py: 34, spine: 179, head: 180, thighL: 48, shinL: -2, thighR: -48, shinR: 2, armL: 90, farmL: 95, armR: -90, farmR: -95, d: 0.85 }
     ]}
   },
   'jump-squat': {
@@ -87,6 +99,10 @@ const EXERCISES = {
     anim: { view: 'side', kfs: [
       { py: 36, spine: 152, head: 162, thighL: 76, shinL: -14, thighR: 70, shinR: -10, armL: 60, farmL: 55, armR: 55, farmR: 50, d: 0.38 },
       { py: -24, spine: 182, head: 184, thighL: 3, shinL: 1, thighR: -3, shinR: -1, armL: -35, farmL: -25, armR: -30, farmR: -20, d: 0.45 }
+    ]},
+    anim2: { view: 'front', kfs: [
+      { py: 34, spine: 179, head: 180, thighL: 48, shinL: -2, thighR: -48, shinR: 2, armL: 50, farmL: 55, armR: -50, farmR: -55, d: 0.38 },
+      { py: -26, spine: 181, head: 180, thighL: 8, shinL: 4, thighR: -8, shinR: -4, armL: 165, farmL: 170, armR: -165, farmR: -170, d: 0.45 }
     ]}
   },
   'lunges': {
@@ -103,6 +119,10 @@ const EXERCISES = {
     anim: { view: 'side', kfs: [
       { py: 0, spine: 178, head: 181, thighL: 5, shinL: 2, thighR: -5, shinR: -2, armL: 10, farmL: 5, armR: -10, farmR: -5, d: 0.55 },
       { py: 32, spine: 172, head: 176, thighL: 62, shinL: -8, thighR: -55, shinR: -82, armL: 14, farmL: 8, armR: -12, farmR: -6, d: 0.7 }
+    ]},
+    anim2: { view: 'front', kfs: [
+      { spine: 180, head: 181, thighL: 8, shinL: 4, thighR: -8, shinR: -4, armL: 12, farmL: 6, armR: -12, farmR: -6, d: 0.55 },
+      { py: 30, spine: 180, head: 181, thighL: 30, shinL: -18, thighR: -12, shinR: -6, armL: 16, farmL: 10, armR: -16, farmR: -10, d: 0.7 }
     ]}
   },
   'glute-bridge': {
@@ -135,6 +155,10 @@ const EXERCISES = {
     anim: { view: 'side', kfs: [
       { py: 0, spine: 180, head: 182, thighL: 4, shinL: 2, thighR: -4, shinR: -2, armL: 10, farmL: 5, armR: -10, farmR: -5, d: 0.55 },
       { py: -8, spine: 181, head: 183, thighL: 4, shinL: 2, thighR: -4, shinR: -2, armL: 12, farmL: 6, armR: -12, farmR: -6, d: 0.55 }
+    ]},
+    anim2: { view: 'front', kfs: [
+      { spine: 180, head: 181, thighL: 10, shinL: 6, thighR: -10, shinR: -6, armL: 10, farmL: 5, armR: -10, farmR: -5, d: 0.55 },
+      { py: -8, spine: 180, head: 181, thighL: 10, shinL: 6, thighR: -10, shinR: -6, armL: 12, farmL: 6, armR: -12, farmR: -6, d: 0.55 }
     ]}
   },
   'pushup': {
@@ -279,6 +303,10 @@ const EXERCISES = {
     anim: { view: 'front', kfs: [
       { py: 4, spine: 178, head: 180, thighL: 14, shinL: 8, thighR: -14, shinR: -8, armL: 92, farmL: 98, armR: -30, farmR: -115, d: 0.3 },
       { py: 4, spine: 182, head: 180, thighL: 14, shinL: 8, thighR: -14, shinR: -8, armL: 30, farmL: 115, armR: -92, farmR: -98, d: 0.3 }
+    ]},
+    anim2: { view: 'side', kfs: [
+      { py: 6, spine: 174, head: 178, thighL: 18, shinL: 6, thighR: -12, shinR: -4, armL: 88, farmL: 92, armR: 30, farmR: -65, d: 0.3 },
+      { py: 6, spine: 176, head: 180, thighL: 18, shinL: 6, thighR: -12, shinR: -4, armR: 88, farmR: 92, armL: 30, farmL: -65, d: 0.3 }
     ]}
   },
   'side-plank': {
@@ -425,6 +453,10 @@ const EXERCISES = {
     anim: { view: 'front', kfs: [
       { px: -14, py: 8, spine: 172, head: 174, thighL: 30, shinL: 24, thighR: -48, shinR: -14, armL: -45, farmL: -55, armR: 50, farmR: 65, d: 0.42 },
       { px: 14, py: 8, spine: 188, head: 186, thighR: -30, shinR: -24, thighL: 48, shinL: 14, armR: 45, farmR: 55, armL: -50, farmL: -65, d: 0.42 }
+    ]},
+    anim2: { view: 'side', kfs: [
+      { px: -10, py: 10, spine: 168, head: 172, thighL: 40, shinL: -10, thighR: -50, shinR: -70, armL: -40, farmL: -50, armR: 55, farmR: 70, d: 0.42 },
+      { px: 10, py: 10, spine: 172, head: 176, thighL: 45, shinL: -5, thighR: -45, shinR: -75, armL: 50, farmL: 65, armR: -45, farmR: -55, d: 0.42 }
     ]}
   },
   'donkey-kicks': {
@@ -473,6 +505,10 @@ const EXERCISES = {
     anim: { view: 'side', kfs: [
       { py: 26, spine: 160, head: 166, thighL: 55, shinL: -8, thighR: 50, shinR: -5, armL: -30, farmL: -20, armR: -25, farmR: -15, d: 0.38 },
       { py: -42, spine: 178, head: 180, thighL: 88, shinL: 5, thighR: 82, shinR: 2, armL: 60, farmL: 80, armR: -50, farmR: -60, d: 0.42 }
+    ]},
+    anim2: { view: 'front', kfs: [
+      { py: 26, spine: 179, head: 180, thighL: 35, shinL: -5, thighR: -35, shinR: 5, armL: 30, farmL: 20, armR: -30, farmR: -20, d: 0.38 },
+      { py: -42, spine: 181, head: 180, thighL: 55, shinL: -30, thighR: -55, shinR: 30, armL: 120, farmL: 130, armR: -120, farmR: -130, d: 0.42 }
     ]}
   },
   'sumo-squat': {
@@ -489,9 +525,16 @@ const EXERCISES = {
     anim: { view: 'front', kfs: [
       { py: 0, spine: 180, head: 181, thighL: 24, shinL: 20, thighR: -24, shinR: -20, armL: 14, farmL: 8, armR: -14, farmR: -8, d: 0.8 },
       { py: 32, spine: 178, head: 180, thighL: 62, shinL: 8, thighR: -62, shinR: -8, armL: 95, farmL: 100, armR: -95, farmR: -100, d: 0.8 }
+    ]},
+    anim2: { view: 'side', kfs: [
+      { spine: 179, head: 181, thighL: 8, shinL: 3, thighR: -4, shinR: -1, armL: 10, farmL: 5, armR: -6, farmR: -3, d: 0.8 },
+      { py: 30, spine: 170, head: 174, thighL: 65, shinL: -10, thighR: 58, shinR: -6, armL: 75, farmL: 72, armR: 70, farmR: 68, d: 0.8 }
     ]}
   }
 };
+
+/* Etiquetas de los ángulos de vista del holograma */
+const VISTAS = { side: 'Lateral', front: 'Frontal' };
 
 /* ---------- Tipos de sesión ---------- */
 const SESIONES = {

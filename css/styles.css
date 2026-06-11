@@ -270,6 +270,14 @@ main{flex:1;padding:1.1rem 1.1rem calc(var(--nav-h) + 1.4rem)}
   color:var(--acc);text-transform:uppercase;font-weight:700;opacity:.8;
 }
 .holo-label::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--acc);margin-right:.35rem;animation:blink 1.4s infinite}
+.holo-views{position:absolute;top:.55rem;right:.6rem;display:flex;gap:4px;z-index:2}
+.hv{
+  font-size:.62rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+  padding:.28rem .6rem;border-radius:99px;color:var(--muted);
+  background:rgba(8,16,28,.65);border:1px solid rgba(34,211,238,.25);
+  transition:all .15s;
+}
+.hv.on{color:#06121a;background:var(--acc);border-color:var(--acc);box-shadow:0 0 10px rgba(34,211,238,.5)}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
 .timer-big{
   text-align:center;font-size:4rem;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;
