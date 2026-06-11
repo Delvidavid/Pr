@@ -30,8 +30,8 @@ Funciona perfecta en móvil y escritorio. Todos tus datos se guardan en tu naveg
 | 🏠 **Inicio** | Entrenamiento del día, anillo de progreso semanal, racha 🔥, hidratación |
 | 📅 **Calendario** | Plan mensual completo: días programados, completados y de descanso. Toca cualquier día para ver su rutina |
 | 🏋️ **Entrenador guiado** | Temporizador por intervalos con rondas, descansos, avisos sonoros y pausa/saltar |
-| 🧬 **Holograma** | Figura holográfica animada en canvas que ejecuta cada ejercicio en bucle para que copies la técnica |
-| 📖 **Biblioteca** | 17 ejercicios con instrucciones paso a paso, errores comunes, consejo pro y enlace a video |
+| 🧬 **Holograma** | Figura holográfica con volumen, reflejo, partículas y estela que ejecuta cada ejercicio en bucle |
+| 📖 **Biblioteca** | 30 ejercicios con instrucciones paso a paso, errores comunes, consejo pro y enlace a video |
 | 🥗 **Dieta** | Calorías y macros calculados (Mifflin-St Jeor) según tu objetivo + menú semanal de 7 días con checklist |
 | 📈 **Progreso** | Racha, sesiones, minutos, kcal, gráfica de actividad de 7 días, registro y gráfica de peso, historial |
 | 🏅 **Logros y retos** | Sistema de XP y niveles, 16 logros desbloqueables y reto semanal rotativo (+100 XP) |

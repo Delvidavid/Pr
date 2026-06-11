@@ -280,23 +280,233 @@ const EXERCISES = {
       { py: 4, spine: 178, head: 180, thighL: 14, shinL: 8, thighR: -14, shinR: -8, armL: 92, farmL: 98, armR: -30, farmR: -115, d: 0.3 },
       { py: 4, spine: 182, head: 180, thighL: 14, shinL: 8, thighR: -14, shinR: -8, armL: 30, farmL: 115, armR: -92, farmR: -98, d: 0.3 }
     ]}
+  },
+  'side-plank': {
+    nombre: 'Plancha lateral', emoji: '🧱', grupo: 'core', dificultad: 2, met: 4,
+    musculos: ['Oblicuos', 'Core lateral', 'Hombro'],
+    instrucciones: [
+      'Túmbate de lado apoyado sobre el antebrazo, codo bajo el hombro.',
+      'Eleva la cadera hasta formar una línea recta de cabeza a pies.',
+      'El brazo libre apunta al techo o descansa en la cadera.',
+      'Aguanta el tiempo indicado y cambia de lado en la siguiente serie.'
+    ],
+    errores: ['Cadera caída hacia el suelo', 'Hombro adelantado respecto al codo', 'Girar el torso'],
+    consejo: 'Aprieta el glúteo de abajo: estabiliza toda la línea.',
+    anim: { view: 'side', kfs: [
+      { py: 56, spine: -122, head: -118, thighL: 78, shinL: 78, thighR: 82, shinR: 82, armL: 15, farmL: 95, armR: -172, farmR: -170, d: 1.1 },
+      { py: 62, spine: -117, head: -113, thighL: 79, shinL: 79, thighR: 83, shinR: 83, armL: 15, farmL: 95, armR: -172, farmR: -170, d: 1.1 }
+    ]}
+  },
+  'shoulder-taps': {
+    nombre: 'Toques de hombro', emoji: '🖐️', grupo: 'pecho', dificultad: 2, met: 6,
+    musculos: ['Core', 'Hombros', 'Pecho'],
+    instrucciones: [
+      'Colócate en plancha alta con los pies algo separados.',
+      'Levanta una mano y toca el hombro contrario.',
+      'Vuelve a apoyarla y alterna de lado.',
+      'La cadera no debe balancearse: el core trabaja para evitarlo.'
+    ],
+    errores: ['Balancear la cadera de lado a lado', 'Ir demasiado rápido perdiendo control'],
+    consejo: 'Cuanto más separes los pies, más estable estarás.',
+    anim: { view: 'side', kfs: [
+      { py: 46, spine: 100, head: 118, thighL: -83, shinL: -85, thighR: -80, shinR: -82, armL: -35, farmL: -145, armR: 18, farmR: 8, d: 0.45 },
+      { py: 46, spine: 100, head: 118, thighL: -83, shinL: -85, thighR: -80, shinR: -82, armR: -35, farmR: -145, armL: 22, farmL: 12, d: 0.45 }
+    ]}
+  },
+  'dead-bug': {
+    nombre: 'Insecto muerto', emoji: '🪲', grupo: 'core', dificultad: 1, met: 3.5,
+    musculos: ['Core profundo', 'Coordinación'],
+    instrucciones: [
+      'Boca arriba, brazos hacia el techo y rodillas dobladas a 90°.',
+      'Extiende a la vez el brazo derecho hacia atrás y la pierna izquierda al frente.',
+      'Sin que la lumbar se despegue del suelo, vuelve al centro.',
+      'Alterna lados con movimientos lentos y controlados.'
+    ],
+    errores: ['Arquear la zona lumbar', 'Mover brazo y pierna del mismo lado', 'Ir con prisa'],
+    consejo: 'Es un ejercicio de control: hazlo lento y exhala al extender.',
+    anim: { view: 'side', kfs: [
+      { py: 78, spine: -92, head: -94, armL: -105, farmL: -104, armR: -178, farmR: -176, thighL: 150, shinL: 60, thighR: 95, shinR: 93, d: 0.75 },
+      { py: 78, spine: -92, head: -94, armR: -105, farmR: -104, armL: -178, farmL: -176, thighR: 150, shinR: 60, thighL: 95, shinL: 93, d: 0.75 }
+    ]}
+  },
+  'bird-dog': {
+    nombre: 'Perro de caza', emoji: '🐕', grupo: 'espalda', dificultad: 1, met: 3.5,
+    musculos: ['Lumbar', 'Glúteos', 'Core', 'Equilibrio'],
+    instrucciones: [
+      'A cuatro patas: manos bajo hombros y rodillas bajo caderas.',
+      'Extiende a la vez el brazo derecho al frente y la pierna izquierda atrás.',
+      'Mantén 2 segundos con la espalda neutra y la cadera nivelada.',
+      'Vuelve al centro y alterna de lado.'
+    ],
+    errores: ['Rotar la cadera al extender la pierna', 'Arquear el cuello mirando al frente'],
+    consejo: 'Imagina un vaso de agua sobre tu espalda: que no se derrame.',
+    anim: { view: 'side', kfs: [
+      { py: 30, spine: 95, head: 112, armR: 95, farmR: 93, armL: 12, farmL: 6, thighL: -95, shinL: -93, thighR: -35, shinR: -90, d: 0.95 },
+      { py: 30, spine: 95, head: 112, armL: 95, farmL: 93, armR: 12, farmR: 6, thighR: -95, shinR: -93, thighL: -35, shinL: -90, d: 0.95 }
+    ]}
+  },
+  'russian-twist': {
+    nombre: 'Giro ruso', emoji: '🌀', grupo: 'core', dificultad: 2, met: 5,
+    musculos: ['Oblicuos', 'Recto abdominal'],
+    instrucciones: [
+      'Siéntate con las rodillas dobladas y el torso inclinado hacia atrás (~45°).',
+      'Junta las manos frente al pecho; si puedes, eleva los pies.',
+      'Gira el torso llevando las manos de un lado al otro de la cadera.',
+      'El giro nace del abdomen, no de los brazos.'
+    ],
+    errores: ['Redondear la espalda', 'Mover solo los brazos sin girar el torso'],
+    consejo: 'Mantén el pecho abierto: el ejercicio es del tronco.',
+    anim: { view: 'side', kfs: [
+      { py: 68, spine: -138, head: -130, thighL: 118, shinL: 48, thighR: 112, shinR: 44, armL: 100, farmL: 100, armR: 96, farmR: 96, d: 0.4 },
+      { py: 68, spine: -142, head: -134, thighL: 118, shinL: 48, thighR: 112, shinR: 44, armL: 145, farmL: 148, armR: 141, farmR: 144, d: 0.4 }
+    ]}
+  },
+  'flutter-kicks': {
+    nombre: 'Tijeras verticales', emoji: '✂️', grupo: 'core', dificultad: 2, met: 4.5,
+    musculos: ['Abdomen inferior', 'Flexores de cadera'],
+    instrucciones: [
+      'Boca arriba con las manos bajo los glúteos.',
+      'Eleva las piernas rectas unos 30-40 cm del suelo.',
+      'Patalea alternando piernas arriba y abajo, con recorrido corto.',
+      'La lumbar permanece pegada al suelo todo el tiempo.'
+    ],
+    errores: ['Despegar la lumbar', 'Doblar las rodillas', 'Recorridos demasiado amplios'],
+    consejo: 'Si la lumbar se despega, eleva más las piernas.',
+    anim: { view: 'side', kfs: [
+      { py: 78, spine: -95, head: -97, thighL: 100, shinL: 99, thighR: 128, shinR: 127, armL: -92, farmL: -91, armR: -88, farmR: -87, d: 0.3 },
+      { py: 78, spine: -95, head: -97, thighL: 128, shinL: 127, thighR: 100, shinR: 99, armL: -92, farmL: -91, armR: -88, farmR: -87, d: 0.3 }
+    ]}
+  },
+  'hollow-hold': {
+    nombre: 'Hollow hold', emoji: '🥣', grupo: 'core', dificultad: 3, met: 4,
+    musculos: ['Core completo', 'Tensión corporal'],
+    instrucciones: [
+      'Boca arriba, brazos extendidos por detrás de la cabeza.',
+      'Despega a la vez hombros y piernas formando una "banana".',
+      'Aprieta el abdomen empujando la lumbar contra el suelo.',
+      'Aguanta la posición respirando de forma controlada.'
+    ],
+    errores: ['Lumbar despegada (arqueo)', 'Cuello tenso mirando arriba', 'Piernas demasiado altas'],
+    consejo: 'Si es muy duro, dobla las rodillas o sube más las piernas.',
+    anim: { view: 'side', kfs: [
+      { py: 74, spine: -112, head: -106, thighL: 112, shinL: 110, thighR: 116, shinR: 114, armL: -130, farmL: -132, armR: -126, farmR: -128, d: 1.2 },
+      { py: 75, spine: -110, head: -104, thighL: 114, shinL: 112, thighR: 118, shinR: 116, armL: -128, farmL: -130, armR: -124, farmR: -126, d: 1.2 }
+    ]}
+  },
+  'inchworm': {
+    nombre: 'Oruga', emoji: '🐛', grupo: 'cardio', dificultad: 2, met: 6,
+    musculos: ['Cuerpo completo', 'Hombros', 'Isquiotibiales'],
+    instrucciones: [
+      'De pie, flexiona la cadera y apoya las manos en el suelo.',
+      'Camina con las manos hacia delante hasta quedar en plancha.',
+      'Pausa 1 segundo y camina las manos de vuelta hacia los pies.',
+      'Incorpórate y repite. Las piernas, lo más rectas que puedas.'
+    ],
+    errores: ['Doblar mucho las rodillas', 'Dejar caer la cadera en la plancha'],
+    consejo: 'Excelente para calentar: moviliza hombros e isquios a la vez.',
+    anim: { view: 'side', kfs: [
+      { py: 0, spine: 180, head: 183, thighL: 4, shinL: 2, thighR: -4, shinR: -2, armL: 10, farmL: 5, armR: -10, farmR: -5, d: 0.45 },
+      { py: 14, spine: 55, head: 75, thighL: -18, shinL: -12, thighR: -14, shinR: -10, armL: 35, farmL: 30, armR: 30, farmR: 25, d: 0.55 },
+      { py: 46, spine: 100, head: 118, thighL: -83, shinL: -85, thighR: -80, shinR: -82, armL: 18, farmL: 8, armR: 22, farmR: 12, d: 0.7 },
+      { py: 14, spine: 55, head: 75, thighL: -18, shinL: -12, thighR: -14, shinR: -10, armL: 35, farmL: 30, armR: 30, farmR: 25, d: 0.6 }
+    ]}
+  },
+  'skaters': {
+    nombre: 'Patinadores', emoji: '⛸️', grupo: 'cardio', dificultad: 2, met: 8,
+    musculos: ['Piernas', 'Glúteos', 'Cardio', 'Equilibrio'],
+    instrucciones: [
+      'Salta lateralmente aterrizando sobre una pierna.',
+      'La pierna libre cruza por detrás sin tocar el suelo.',
+      'Los brazos acompañan el impulso como al patinar.',
+      'Encadena saltos de lado a lado con ritmo constante.'
+    ],
+    errores: ['Aterrizar con la pierna rígida', 'Torso totalmente erguido (inclínate un poco)'],
+    consejo: 'Cuanto más te agaches al aterrizar, más trabajan glúteos y piernas.',
+    anim: { view: 'front', kfs: [
+      { px: -14, py: 8, spine: 172, head: 174, thighL: 30, shinL: 24, thighR: -48, shinR: -14, armL: -45, farmL: -55, armR: 50, farmR: 65, d: 0.42 },
+      { px: 14, py: 8, spine: 188, head: 186, thighR: -30, shinR: -24, thighL: 48, shinL: 14, armR: 45, farmR: 55, armL: -50, farmL: -65, d: 0.42 }
+    ]}
+  },
+  'donkey-kicks': {
+    nombre: 'Patada de glúteo', emoji: '🐴', grupo: 'piernas', dificultad: 1, met: 4,
+    musculos: ['Glúteos', 'Isquiotibiales', 'Lumbar'],
+    instrucciones: [
+      'A cuatro patas con la espalda neutra.',
+      'Con la rodilla doblada a 90°, eleva una pierna llevando el talón al techo.',
+      'Aprieta el glúteo arriba 1 segundo.',
+      'Baja sin tocar el suelo y repite; cambia de pierna en la siguiente serie.'
+    ],
+    errores: ['Arquear la lumbar al subir', 'Abrir la cadera hacia el lado'],
+    consejo: 'El movimiento es corto: la fuerza sale del glúteo, no de la espalda.',
+    anim: { view: 'side', kfs: [
+      { py: 30, spine: 95, head: 112, armL: 12, farmL: 6, armR: 18, farmR: 10, thighL: -35, shinL: -90, thighR: -38, shinR: -92, d: 0.5 },
+      { py: 30, spine: 95, head: 112, armL: 12, farmL: 6, armR: 18, farmR: 10, thighL: -128, shinL: -172, thighR: -38, shinR: -92, d: 0.5 }
+    ]}
+  },
+  'plank-updown': {
+    nombre: 'Plancha arriba-abajo', emoji: '🔼', grupo: 'pecho', dificultad: 3, met: 7,
+    musculos: ['Core', 'Hombros', 'Tríceps', 'Pecho'],
+    instrucciones: [
+      'Empieza en plancha sobre los antebrazos.',
+      'Apoya una mano y luego la otra para subir a plancha alta.',
+      'Baja de nuevo a los antebrazos, un brazo cada vez.',
+      'Alterna el brazo que inicia y evita balancear la cadera.'
+    ],
+    errores: ['Cadera bailando de lado a lado', 'Manos muy adelantadas al subir'],
+    consejo: 'Pies más anchos = más estabilidad. Ritmo constante, no velocidad.',
+    anim: { view: 'side', kfs: [
+      { py: 50, spine: 97, head: 115, thighL: -82, shinL: -84, thighR: -79, shinR: -81, armL: 18, farmL: 88, armR: 22, farmR: 92, d: 0.55 },
+      { py: 44, spine: 99, head: 117, thighL: -82, shinL: -84, thighR: -79, shinR: -81, armL: 18, farmL: 8, armR: 24, farmR: 14, d: 0.55 }
+    ]}
+  },
+  'tuck-jump': {
+    nombre: 'Salto rodillas al pecho', emoji: '🦘', grupo: 'cardio', dificultad: 3, met: 9,
+    musculos: ['Piernas', 'Core', 'Potencia'],
+    instrucciones: [
+      'Desde media sentadilla, salta lo más alto posible.',
+      'En el aire, lleva ambas rodillas hacia el pecho.',
+      'Aterriza suave con las rodillas flexionadas.',
+      'Resetea un segundo y repite. Calidad antes que velocidad.'
+    ],
+    errores: ['Inclinar el pecho hacia las rodillas (deben subir ellas)', 'Aterrizar rígido'],
+    consejo: 'Ejercicio avanzado: si eres nuevo, sustitúyelo por sentadilla con salto.',
+    anim: { view: 'side', kfs: [
+      { py: 26, spine: 160, head: 166, thighL: 55, shinL: -8, thighR: 50, shinR: -5, armL: -30, farmL: -20, armR: -25, farmR: -15, d: 0.38 },
+      { py: -42, spine: 178, head: 180, thighL: 88, shinL: 5, thighR: 82, shinR: 2, armL: 60, farmL: 80, armR: -50, farmR: -60, d: 0.42 }
+    ]}
+  },
+  'sumo-squat': {
+    nombre: 'Sentadilla sumo', emoji: '💠', grupo: 'piernas', dificultad: 1, met: 5.5,
+    musculos: ['Aductores', 'Glúteos', 'Cuádriceps'],
+    instrucciones: [
+      'Pies bien separados (más que los hombros) y puntas hacia fuera ~45°.',
+      'Baja recto, con el torso vertical, abriendo las rodillas hacia las puntas.',
+      'Desciende hasta donde mantengas la espalda recta.',
+      'Sube apretando glúteos y cara interna del muslo.'
+    ],
+    errores: ['Rodillas colapsando hacia dentro', 'Inclinar el torso adelante', 'Talones despegados'],
+    consejo: 'Piensa en "abrir el suelo" con los pies: activa los glúteos.',
+    anim: { view: 'front', kfs: [
+      { py: 0, spine: 180, head: 181, thighL: 24, shinL: 20, thighR: -24, shinR: -20, armL: 14, farmL: 8, armR: -14, farmR: -8, d: 0.8 },
+      { py: 32, spine: 178, head: 180, thighL: 62, shinL: 8, thighR: -62, shinR: -8, armL: 95, farmL: 100, armR: -95, farmR: -100, d: 0.8 }
+    ]}
   }
 };
 
 /* ---------- Tipos de sesión ---------- */
 const SESIONES = {
   fullbody: { nombre: 'Cuerpo completo', icon: '🏋️', desc: 'Fuerza total: piernas, empuje y core en una sola sesión.',
-    lista: ['jumping-jacks', 'squat', 'pushup', 'lunges', 'mountain-climbers', 'glute-bridge', 'plank', 'crunch'] },
+    lista: ['jumping-jacks', 'squat', 'pushup', 'lunges', 'inchworm', 'glute-bridge', 'plank', 'crunch'] },
   hiit: { nombre: 'Cardio HIIT', icon: '⚡', desc: 'Intervalos de alta intensidad para quemar al máximo.',
-    lista: ['jumping-jacks', 'burpees', 'high-knees', 'jump-squat', 'mountain-climbers', 'punches'] },
+    lista: ['jumping-jacks', 'burpees', 'high-knees', 'jump-squat', 'skaters', 'mountain-climbers', 'tuck-jump', 'punches'] },
   core: { nombre: 'Core y abdomen', icon: '🎯', desc: 'Abdomen fuerte y estable: la base de todo movimiento.',
-    lista: ['crunch', 'plank', 'leg-raises', 'bicycle', 'mountain-climbers', 'superman'] },
+    lista: ['crunch', 'plank', 'leg-raises', 'russian-twist', 'bicycle', 'flutter-kicks', 'side-plank', 'dead-bug'] },
   lower: { nombre: 'Tren inferior', icon: '🦵', desc: 'Piernas y glúteos: fuerza y potencia desde la base.',
-    lista: ['squat', 'lunges', 'glute-bridge', 'jump-squat', 'calf-raises', 'leg-raises'] },
+    lista: ['squat', 'lunges', 'sumo-squat', 'glute-bridge', 'donkey-kicks', 'jump-squat', 'calf-raises'] },
   upper: { nombre: 'Tren superior', icon: '💪', desc: 'Pecho, hombros, brazos y espalda sin material.',
-    lista: ['pushup', 'pike-pushup', 'punches', 'superman', 'plank', 'mountain-climbers'] },
+    lista: ['pushup', 'pike-pushup', 'shoulder-taps', 'plank-updown', 'punches', 'superman', 'plank'] },
   mobility: { nombre: 'Movilidad y recuperación', icon: '🧘', desc: 'Sesión suave para activar la circulación y recuperar.',
-    lista: ['jumping-jacks', 'glute-bridge', 'superman', 'calf-raises', 'plank'] },
+    lista: ['bird-dog', 'glute-bridge', 'superman', 'dead-bug', 'calf-raises', 'plank'] },
   rest: { nombre: 'Descanso', icon: '😴', desc: 'Hoy toca recuperar. El músculo crece cuando descansas.', lista: [] }
 };
 
