@@ -375,6 +375,43 @@ const OBJETIVOS = {
 
 const GRUPOS = { todos: 'Todos', cardio: 'Cardio', piernas: 'Piernas', pecho: 'Empuje', core: 'Core', espalda: 'Espalda' };
 
+/* ---------- Logros (cond recibe las estadísticas globales) ---------- */
+const LOGROS = [
+  { id: 'primera',  nombre: 'Primer paso',          desc: 'Completa tu primer entrenamiento',        emoji: '🥇', cond: s => s.sesiones >= 1 },
+  { id: 'racha3',   nombre: 'En llamas',            desc: 'Consigue una racha de 3 días',            emoji: '🔥', cond: s => s.racha >= 3 },
+  { id: 'racha7',   nombre: 'Semana perfecta',      desc: 'Consigue una racha de 7 días',            emoji: '⚡', cond: s => s.racha >= 7 },
+  { id: 'racha14',  nombre: 'Imparable',            desc: 'Consigue una racha de 14 días',           emoji: '🚀', cond: s => s.racha >= 14 },
+  { id: 'racha30',  nombre: 'Leyenda',              desc: 'Consigue una racha de 30 días',           emoji: '👑', cond: s => s.racha >= 30 },
+  { id: 'ses10',    nombre: 'Constante',            desc: 'Completa 10 entrenamientos',              emoji: '💪', cond: s => s.sesiones >= 10 },
+  { id: 'ses25',    nombre: 'Disciplina de hierro', desc: 'Completa 25 entrenamientos',              emoji: '🛡️', cond: s => s.sesiones >= 25 },
+  { id: 'ses50',    nombre: 'Máquina',              desc: 'Completa 50 entrenamientos',              emoji: '🤖', cond: s => s.sesiones >= 50 },
+  { id: 'kcal1000', nombre: 'Quemador',             desc: 'Quema 1.000 kcal acumuladas',             emoji: '♨️', cond: s => s.kcal >= 1000 },
+  { id: 'kcal5000', nombre: 'Horno humano',         desc: 'Quema 5.000 kcal acumuladas',             emoji: '🌋', cond: s => s.kcal >= 5000 },
+  { id: 'min300',   nombre: 'Maratoniano',          desc: 'Acumula 300 minutos de entrenamiento',    emoji: '⏱️', cond: s => s.min >= 300 },
+  { id: 'hidra',    nombre: 'Hidratación perfecta', desc: 'Bebe los 8 vasos de agua en un día',      emoji: '💧', cond: s => s.diasAgua >= 1 },
+  { id: 'chef',     nombre: 'Día de chef',          desc: 'Marca las 4 comidas de un mismo día',     emoji: '👨‍🍳', cond: s => s.diasComidas >= 1 },
+  { id: 'peso5',    nombre: 'Bajo control',         desc: 'Registra tu peso 5 veces',                emoji: '⚖️', cond: s => s.nPesos >= 5 },
+  { id: 'medidas3', nombre: 'Medición pro',         desc: 'Registra 3 medidas corporales',           emoji: '📏', cond: s => s.nMedidas >= 3 },
+  { id: 'nivel5',   nombre: 'Élite',                desc: 'Alcanza el nivel 5',                      emoji: '🏆', cond: s => s.nivel >= 5 }
+];
+
+/* ---------- Retos semanales (rotan cada semana) ---------- */
+const RETOS = [
+  { id: 'entrena4', nombre: 'Completa 4 entrenamientos esta semana', emoji: '🏋️', meta: 4,   prog: w => w.entrenos, unidad: 'entrenos' },
+  { id: 'kcal600',  nombre: 'Quema 600 kcal esta semana',            emoji: '🔥', meta: 600, prog: w => w.kcal,     unidad: 'kcal' },
+  { id: 'agua4',    nombre: 'Bebe 8 vasos de agua 4 días',           emoji: '💧', meta: 4,   prog: w => w.diasAgua, unidad: 'días' },
+  { id: 'min90',    nombre: 'Acumula 90 minutos de ejercicio',       emoji: '⏱️', meta: 90,  prog: w => w.min,      unidad: 'min' }
+];
+
+/* ---------- Medidas corporales ---------- */
+const MEDIDAS = {
+  cintura: { nombre: 'Cintura', emoji: '🎯' },
+  pecho:   { nombre: 'Pecho',   emoji: '🫁' },
+  cadera:  { nombre: 'Cadera',  emoji: '🍑' },
+  brazo:   { nombre: 'Brazo',   emoji: '💪' },
+  muslo:   { nombre: 'Muslo',   emoji: '🦵' }
+};
+
 const DIAS = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
 const DIAS_CORTOS = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
 const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];

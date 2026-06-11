@@ -9,11 +9,15 @@ const App = (() => {
   const KEY = 'fithome_pro_v1';
 
   const defaultState = () => ({
-    perfil: null,            // {nombre, sexo, edad, peso, altura, objetivo, nivel}
+    perfil: null,            // {nombre, sexo, edad, peso, altura, objetivo, nivel, recordatorio}
     completados: {},         // 'YYYY-MM-DD' -> {sesiones, min, kcal, tipo}
     agua: {},                // 'YYYY-MM-DD' -> n vasos
     comidas: {},             // 'YYYY-MM-DD' -> {desayuno:true,...}
-    pesos: []                // [{d:'YYYY-MM-DD', kg}]
+    pesos: [],               // [{d:'YYYY-MM-DD', kg}]
+    medidas: {},             // 'cintura' -> [{d:'YYYY-MM-DD', cm}]
+    logros: {},              // id de logro -> 'YYYY-MM-DD' en que se desbloqueó
+    retos: {},               // clave de semana -> true (reto semanal superado)
+    ultimoAviso: null        // último día en que se mostró el recordatorio
   });
 
   let S = load();
@@ -151,6 +155,81 @@ const App = (() => {
     return { min, kcal, sesiones };
   }
 
+  /* ---- XP, niveles, retos y logros ---- */
+  function semanaStats() {
+    const d = new Date();
+    d.setDate(d.getDate() - diaIdx(d)); // lunes
+    const w = { entrenos: 0, min: 0, kcal: 0, diasAgua: 0 };
+    for (let i = 0; i < 7; i++) {
+      const k = dkey(d);
+      const c = S.completados[k];
+      if (c) { w.entrenos++; w.min += c.min; w.kcal += c.kcal; }
+      if ((S.agua[k] || 0) >= 8) w.diasAgua++;
+      d.setDate(d.getDate() + 1);
+    }
+    return w;
+  }
+
+  function semanaKey() {
+    const d = new Date();
+    d.setDate(d.getDate() - diaIdx(d));
+    return 'W' + dkey(d);
+  }
+
+  function retoSemanal() {
+    const d = new Date();
+    d.setDate(d.getDate() - diaIdx(d));
+    const nSemana = Math.floor(d.getTime() / (7 * 86400000));
+    return RETOS[nSemana % RETOS.length];
+  }
+
+  function statsGlobales() {
+    const t = totales();
+    const diasAgua = Object.values(S.agua).filter(n => n >= 8).length;
+    const diasComidas = Object.values(S.comidas).filter(c => ['desayuno', 'comida', 'cena', 'snack'].every(x => c[x])).length;
+    const nMedidas = Object.values(S.medidas).reduce((a, l) => a + l.length, 0);
+    return { ...t, racha: rachaActual(), diasAgua, diasComidas, nPesos: S.pesos.length, nMedidas };
+  }
+
+  function xpTotal() {
+    const g = statsGlobales();
+    return g.sesiones * 50 + g.min + g.diasAgua * 10 + g.diasComidas * 15 +
+      g.nPesos * 10 + g.nMedidas * 10 + Object.keys(S.retos).length * 100;
+  }
+
+  function nivelDe(xp) {
+    // cada nivel cuesta 150 XP más que el anterior (150, 300, 450...)
+    let lvl = 1, coste = 150, resto = xp;
+    while (resto >= coste) { resto -= coste; lvl++; coste += 150; }
+    return { lvl, resto, coste };
+  }
+
+  function checkRetoYLogros() {
+    const reto = retoSemanal();
+    const wk = semanaKey();
+    if (!S.retos[wk] && reto.prog(semanaStats()) >= reto.meta) {
+      S.retos[wk] = true;
+      toast(`${reto.emoji} <b>¡Reto semanal superado!</b><br>${esc(reto.nombre)} · +100 XP`);
+    }
+    const g = { ...statsGlobales(), nivel: nivelDe(xpTotal()).lvl };
+    for (const l of LOGROS) {
+      if (!S.logros[l.id] && l.cond(g)) {
+        S.logros[l.id] = dkey(hoy());
+        toast(`${l.emoji} <b>¡Logro desbloqueado!</b><br>${esc(l.nombre)}: ${esc(l.desc)}`);
+      }
+    }
+    save();
+  }
+
+  let toastTimer = null;
+  function toast(html) {
+    const el = $('#toast');
+    el.innerHTML = html;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 4000);
+  }
+
   function caloriasObjetivo() {
     const p = S.perfil;
     const bmr = 10 * p.peso + 6.25 * p.altura - 5 * p.edad + (p.sexo === 'm' ? 5 : -161);
@@ -210,6 +289,42 @@ const App = (() => {
 
     renderAgua();
     $('#dieta-mini').textContent = `${caloriasObjetivo()} kcal · ${OBJETIVOS[S.perfil.objetivo].nombre}`;
+
+    // tarjeta de XP y nivel
+    const xp = xpTotal();
+    const nv = nivelDe(xp);
+    $('#xp-card').innerHTML = `
+      <div class="xp-head">
+        <b><span class="xp-lvl">${nv.lvl}</span>Nivel ${nv.lvl}</b>
+        <small>${nv.resto} / ${nv.coste} XP</small>
+      </div>
+      <div class="xp-track"><div class="xp-fill" style="width:${Math.round(nv.resto / nv.coste * 100)}%"></div></div>`;
+
+    // reto semanal
+    const reto = retoSemanal();
+    const prog = reto.prog(semanaStats());
+    const logrado = S.retos[semanaKey()] || prog >= reto.meta;
+    const pct = Math.min(100, Math.round(prog / reto.meta * 100));
+    $('#reto-card').className = `card reto-card${logrado ? ' logrado' : ''}`;
+    $('#reto-card').innerHTML = `
+      <div class="reto-head"><h3>${reto.emoji} ${esc(reto.nombre)}</h3>
+        <span class="reto-pill">${logrado ? '✓ Superado · +100 XP' : 'Reto semanal'}</span></div>
+      <div class="reto-track"><div class="reto-fill" style="width:${pct}%"></div></div>
+      <div class="reto-meta"><span>${Math.min(prog, reto.meta)} / ${reto.meta} ${reto.unidad}</span><span>${pct}%</span></div>`;
+
+    // aviso de entrenamiento pendiente (si pasó la hora del recordatorio)
+    const rec = S.perfil.recordatorio;
+    const aviso = $('#aviso-card');
+    const ahora = new Date();
+    const hhmm = `${String(ahora.getHours()).padStart(2, '0')}:${String(ahora.getMinutes()).padStart(2, '0')}`;
+    if (rec && rec.on && hhmm >= rec.hora && tipo !== 'rest' && !hecho) {
+      aviso.classList.remove('hidden');
+      aviso.innerHTML = `<span style="font-size:1.4rem">⏰</span>
+        <p><b>Tu entrenamiento de hoy sigue pendiente.</b><br>
+        <span class="muted">Programado para las ${esc(rec.hora)} — aún estás a tiempo 💪</span></p>`;
+    } else {
+      aviso.classList.add('hidden');
+    }
   }
 
   function renderAgua() {
@@ -224,7 +339,8 @@ const App = (() => {
     const k = dkey(hoy());
     S.agua[k] = (S.agua[k] === n) ? n - 1 : n; // tocar el último vaso lo deshace
     save();
-    renderAgua();
+    checkRetoYLogros();
+    renderInicio();
   }
 
   /* ================= CALENDARIO ================= */
@@ -456,6 +572,7 @@ const App = (() => {
     const prev = S.completados[k] || { sesiones: 0, min: 0, kcal: 0, tipo: r.tipo };
     S.completados[k] = { sesiones: prev.sesiones + 1, min: prev.min + min, kcal: prev.kcal + kcal, tipo: r.tipo };
     save();
+    checkRetoYLogros();
     beep(1568, 0.4, 0.35);
 
     $('#player-bar').style.width = '100%';
@@ -517,6 +634,7 @@ const App = (() => {
     S.comidas[k] = S.comidas[k] || {};
     S.comidas[k][id] = !S.comidas[k][id];
     save();
+    checkRetoYLogros();
     renderDieta();
   }
 
@@ -549,6 +667,8 @@ const App = (() => {
       </div>`).join('');
 
     renderPesoChart();
+    renderLogros();
+    renderMedidas();
 
     const hist = Object.entries(S.completados).sort((a, b) => b[0].localeCompare(a[0])).slice(0, 15);
     $('#historial').innerHTML = hist.length ? hist.map(([k, c]) => {
@@ -569,27 +689,77 @@ const App = (() => {
     S.perfil.peso = v;
     save();
     $('#peso-input').value = '';
+    checkRetoYLogros();
     renderPesoChart();
   }
 
-  function renderPesoChart() {
-    const svg = $('#peso-chart');
-    const ps = S.pesos.slice(-12);
-    if (ps.length < 1) { svg.innerHTML = ''; return; }
-    const vals = ps.map(p => p.kg);
+  function lineChart(svg, valores, gid, color = '#22d3ee') {
+    const ps = valores.slice(-12);
+    if (!ps.length) {
+      svg.innerHTML = `<text x="170" y="75" text-anchor="middle" font-size="11" fill="#8b93a7">Aún sin registros: añade el primero arriba</text>`;
+      return;
+    }
+    const vals = ps.map(p => p.v);
     const min = Math.min(...vals) - 1, max = Math.max(...vals) + 1;
     const W = 340, H = 140, pad = 22;
     const X = i => ps.length === 1 ? W / 2 : pad + i * (W - pad * 2) / (ps.length - 1);
     const Y = v => H - pad - (v - min) / (max - min) * (H - pad * 2);
-    const pts = ps.map((p, i) => `${X(i)},${Y(p.kg)}`).join(' ');
+    const pts = ps.map((p, i) => `${X(i)},${Y(p.v)}`).join(' ');
     svg.innerHTML = `
-      <defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#22d3ee" stop-opacity=".35"/>
-        <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/></linearGradient></defs>
-      <polygon points="${X(0)},${H - pad} ${pts} ${X(ps.length - 1)},${H - pad}" fill="url(#pg)"/>
-      <polyline points="${pts}" fill="none" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-      ${ps.map((p, i) => `<circle cx="${X(i)}" cy="${Y(p.kg)}" r="3.4" fill="#0b0f1a" stroke="#22d3ee" stroke-width="2"/>
-        <text x="${X(i)}" y="${Y(p.kg) - 8}" text-anchor="middle" font-size="9" fill="#8b93a7">${p.kg}</text>`).join('')}`;
+      <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="${color}" stop-opacity=".35"/>
+        <stop offset="1" stop-color="${color}" stop-opacity="0"/></linearGradient></defs>
+      <polygon points="${X(0)},${H - pad} ${pts} ${X(ps.length - 1)},${H - pad}" fill="url(#${gid})"/>
+      <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      ${ps.map((p, i) => `<circle cx="${X(i)}" cy="${Y(p.v)}" r="3.4" fill="#0b0f1a" stroke="${color}" stroke-width="2"/>
+        <text x="${X(i)}" y="${Y(p.v) - 8}" text-anchor="middle" font-size="9" fill="#8b93a7">${p.v}</text>`).join('')}`;
+  }
+
+  function renderPesoChart() {
+    lineChart($('#peso-chart'), S.pesos.map(p => ({ v: p.kg })), 'pg');
+  }
+
+  /* ---- medidas corporales ---- */
+  function renderMedidas() {
+    const sel = $('#medida-sel');
+    if (!sel.options.length) {
+      sel.innerHTML = Object.entries(MEDIDAS).map(([k, m]) => `<option value="${k}">${m.emoji} ${m.nombre}</option>`).join('');
+    }
+    const lista = S.medidas[sel.value] || [];
+    lineChart($('#medida-chart'), lista.map(m => ({ v: m.cm })), 'mg', '#a78bfa');
+  }
+
+  function logMedida() {
+    const v = parseFloat($('#medida-input').value);
+    if (!v || v < 10 || v > 200) return;
+    const tipo = $('#medida-sel').value;
+    const k = dkey(hoy());
+    S.medidas[tipo] = (S.medidas[tipo] || []).filter(m => m.d !== k);
+    S.medidas[tipo].push({ d: k, cm: v });
+    S.medidas[tipo].sort((a, b) => a.d.localeCompare(b.d));
+    save();
+    $('#medida-input').value = '';
+    checkRetoYLogros();
+    renderMedidas();
+  }
+
+  /* ---- logros ---- */
+  function renderLogros() {
+    const n = Object.keys(S.logros).length;
+    $('#logros-num').textContent = `${n}/${LOGROS.length}`;
+    $('#logros-grid').innerHTML = LOGROS.map(l => {
+      const on = !!S.logros[l.id];
+      return `<div class="logro ${on ? 'on' : 'off'}" onclick="App.verLogro('${l.id}')">
+        <span class="ic">${on ? l.emoji : '🔒'}</span><small>${esc(l.nombre)}</small></div>`;
+    }).join('');
+  }
+
+  function verLogro(id) {
+    const l = LOGROS.find(x => x.id === id);
+    const fecha = S.logros[id];
+    toast(fecha
+      ? `${l.emoji} <b>${esc(l.nombre)}</b> — desbloqueado el ${esc(fecha)}<br>${esc(l.desc)}`
+      : `🔒 <b>${esc(l.nombre)}</b><br>${esc(l.desc)}`);
   }
 
   /* ================= BIBLIOTECA ================= */
@@ -648,6 +818,28 @@ const App = (() => {
     if (modalHolo) { modalHolo.stop(); modalHolo = null; }
   }
 
+  /* ================= RECORDATORIOS ================= */
+  function chequearRecordatorio() {
+    const rec = S.perfil && S.perfil.recordatorio;
+    if (!rec || !rec.on) return;
+    const d = hoy();
+    const k = dkey(d);
+    const hhmm = `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+    if (S.ultimoAviso === k || hhmm < rec.hora) return;
+    if (tipoSesion(d) === 'rest' || S.completados[k]) return;
+    S.ultimoAviso = k;
+    save();
+    const r = rutinaDe(tipoSesion(d));
+    const msg = `${r.icon} Hoy toca ${r.nombre} (${r.min} min). ¡Tu racha te espera! 🔥`;
+    if ('Notification' in window && Notification.permission === 'granted') {
+      try {
+        new Notification('⚡ FitHome Pro — hora de entrenar', { body: msg, icon: 'icons/icon-192.png' });
+      } catch (e) { /* algunos móviles requieren SW para notificar */ }
+    }
+    toast(`⏰ <b>¡Hora de entrenar!</b><br>${esc(msg)}`);
+    if (vistaActual === 'inicio') renderInicio();
+  }
+
   /* ================= PERFIL ================= */
   function openPerfil() {
     const p = S.perfil;
@@ -657,6 +849,8 @@ const App = (() => {
     $('#pf-altura').value = p.altura;
     $('#pf-objetivo').value = p.objetivo;
     $('#pf-nivel').value = p.nivel;
+    $('#pf-rec-on').value = (p.recordatorio && p.recordatorio.on) ? 'on' : 'off';
+    $('#pf-rec-hora').value = (p.recordatorio && p.recordatorio.hora) || '18:00';
     $('#modal-perfil').classList.remove('hidden');
   }
 
@@ -668,9 +862,15 @@ const App = (() => {
     p.altura = +$('#pf-altura').value || p.altura;
     p.objetivo = $('#pf-objetivo').value;
     p.nivel = $('#pf-nivel').value;
+    const recOn = $('#pf-rec-on').value === 'on';
+    p.recordatorio = { on: recOn, hora: $('#pf-rec-hora').value || '18:00' };
+    if (recOn && 'Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
     save();
     cerrarModal();
     go(vistaActual);
+    if (recOn) toast(`🔔 <b>Recordatorio activado</b><br>Te avisaré cada día a las ${esc(p.recordatorio.hora)}`);
   }
 
   function resetApp() {
@@ -694,6 +894,15 @@ const App = (() => {
     // cerrar modales al tocar el fondo
     document.querySelectorAll('.modal').forEach(m =>
       m.addEventListener('click', ev => { if (ev.target === m) cerrarModal(); }));
+
+    // PWA: service worker (solo bajo http/https; file:// no lo soporta)
+    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+
+    // recordatorio diario: comprobar al abrir y cada minuto
+    chequearRecordatorio();
+    setInterval(chequearRecordatorio, 60000);
   }
 
   document.addEventListener('DOMContentLoaded', init);
@@ -702,6 +911,7 @@ const App = (() => {
     go, obNext, obPrev, setAgua, calMove, calSelDia, entrenarTipo,
     iniciarRutina, togglePausa, saltarPaso, salirPlayer,
     toggleComida, logPeso, filtrarLib, verEjercicio, cerrarModal,
-    openPerfil, guardarPerfil, resetApp
+    openPerfil, guardarPerfil, resetApp,
+    renderMedidas, logMedida, verLogro
   };
 })();

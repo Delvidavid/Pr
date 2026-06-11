@@ -6,7 +6,12 @@
 <meta name="theme-color" content="#0b0f1a">
 <title>FitHome Pro — Tu entrenador personal en casa</title>
 <meta name="description" content="App premium de entrenamiento en casa: plan diario, holograma 3D de técnica, calendario, dieta y progreso.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FitHome Pro">
 <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -88,7 +93,13 @@
         <p id="fecha-txt" class="muted"></p>
       </div>
 
+      <div class="card xp-card" id="xp-card"></div>
+
       <div class="card hero-card" id="hero-hoy"></div>
+
+      <div class="card reto-card" id="reto-card"></div>
+
+      <div class="card aviso-card hidden" id="aviso-card"></div>
 
       <div class="grid-2">
         <div class="card ring-card">
@@ -201,6 +212,21 @@
         <svg id="peso-chart" viewBox="0 0 340 140" preserveAspectRatio="none"></svg>
       </div>
       <div class="card">
+        <h3>🏅 Logros <span class="muted" id="logros-num"></span></h3>
+        <div class="logros-grid" id="logros-grid"></div>
+      </div>
+      <div class="card">
+        <div class="peso-head">
+          <h3>📏 Medidas corporales</h3>
+          <div class="peso-form">
+            <select id="medida-sel" onchange="App.renderMedidas()"></select>
+            <input type="number" id="medida-input" step="0.5" min="10" max="200" placeholder="cm">
+            <button class="btn-mini" onclick="App.logMedida()">+</button>
+          </div>
+        </div>
+        <svg id="medida-chart" viewBox="0 0 340 140" preserveAspectRatio="none"></svg>
+      </div>
+      <div class="card">
         <h3>🗒️ Historial de entrenamientos</h3>
         <div id="historial"></div>
       </div>
@@ -269,11 +295,22 @@
           <option value="avanzado">🏆 Avanzado</option>
         </select>
       </label>
+      <label class="field"><span>Recordatorio diario</span>
+        <select id="pf-rec-on">
+          <option value="off">🔕 Desactivado</option>
+          <option value="on">🔔 Activado</option>
+        </select>
+      </label>
+      <label class="field"><span>Hora del recordatorio</span>
+        <input type="time" id="pf-rec-hora" value="18:00">
+      </label>
     </div>
     <button class="btn-primary" onclick="App.guardarPerfil()">Guardar cambios</button>
     <button class="btn-ghost danger" onclick="App.resetApp()">Borrar todos mis datos</button>
   </div>
 </div>
+
+<div id="toast" class="toast"></div>
 
 <script src="js/data.js"></script>
 <script src="js/hologram.js"></script>
